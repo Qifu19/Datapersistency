@@ -34,7 +34,10 @@
 -- die ervoor zorgt dat alleen 'M' of 'V' als geldige waarde wordt
 -- geaccepteerd. Test deze regel en neem de gegooide foutmelding op als
 -- commentaar in de uitwerking.
+ALTER TABLE medewerkers ADD COLUMN geslacht varchar(255);
 
+ALTER TABLE medewerkers
+ADD CONSTRAINT m_geslacht_chk  CHECK (geslacht IN ('m', 'v'));
 
 -- S1.2. Nieuwe afdeling
 --
@@ -43,7 +46,11 @@
 -- nieuwe medewerker A DONK aangenomen. Hij krijgt medewerkersnummer 8000
 -- en valt direct onder de directeur.
 -- Voeg de nieuwe afdeling en de nieuwe medewerker toe aan de database.
+INSERT INTO medewerkers (mnr, naam, voorl, gbdatum, maandsal, functie, chef)
+VALUES (8000, 'DONK', 'A', '1978-10-8', 8000.00, 'MANAGER', 7839);
 
+INSERT INTO afdelingen (anr, naam, locatie, hoofd)
+VALUES (50, 'ONDERZOEK', 'ZWOLLE', 8000);
 
 -- S1.3. Verbetering op afdelingentabel
 --
@@ -54,6 +61,26 @@
 --      de nieuwe sequence.
 --   c) Op enig moment gaat het mis. De betreffende kolommen zijn te klein voor
 --      nummers van 3 cijfers. Los dit probleem op.
+DROP SEQUENCE IF EXISTS anr_sequence_number;
+CREATE SEQUENCE anr_sequence_number START WITH 80 INCREMENT BY 10;
+
+INSERT INTO afdelingen (anr, naam, locatie, hoofd)
+VALUES (nextval('anr_sequence_number'), 'WETENSCHAPA', 'WOUDENBERG', 8000);
+
+INSERT INTO afdelingen (anr, naam, locatie, hoofd)
+VALUES (nextval('anr_sequence_number'), 'MASSIN', 'LEUSDEN', 8000);
+
+INSERT INTO afdelingen (anr, naam, locatie, hoofd)
+VALUES (nextval('anr_sequence_number'), 'YEET', 'AMERSFOORT', 8000);
+
+INSERT INTO afdelingen (anr, naam, locatie, hoofd)
+VALUES (nextval('anr_sequence_number'), 'JOERI', 'JOERI', 8000);
+
+INSERT INTO afdelingen (anr, naam, locatie, hoofd)
+VALUES (nextval('anr_sequence_number'), 'EXPERIMENT', 'MASSIN', 8000);
+
+ALTER TABLE afdelingen
+ALTER COLUMN anr TYPE NUMERIC(4,0);
 
 
 -- S1.4. Adressen
@@ -68,7 +95,22 @@
 --    einddatum     moet na de ingangsdatum liggen
 --    telefoon      10 cijfers, uniek
 --    med_mnr       FK, verplicht
+CREATE TABLE adressen (
+	postcode CHAR(6),
+	huisnummer NUMERIC(4),
+	ingangsdatum DATE,
+	einddatum DATE,
+	telefoon CHAR(10) UNIQUE,
+	med_mnr NUMERIC(4) NOT NULL,
+	
+	PRIMARY KEY (postcode, huisnummer, ingangsdatum),
+	
+	CONSTRAINT fk_medewerker
+	FOREIGN KEY (med_mnr) REFERENCES medewerkers (mnr)
+);
 
+INSERT INTO adressen (postcode, huisnummer, ingangsdatum, einddatum, telefoon, med_mnr)
+VALUES ('3811AT', '75', '2023-01-01', '2023-05-09', '1111111111', 8000);
 
 -- S1.5. Commissie
 --
@@ -76,11 +118,13 @@
 -- 'VERKOPER' heeft, anders moet de commissie NULL zijn. Schrijf hiervoor een beperkingsregel. Gebruik onderstaande
 -- 'illegale' INSERTs om je beperkingsregel te controleren.
 
-INSERT INTO medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm)
-VALUES (8001, 'MULLER', 'TJ', 'TRAINER', 7566, '1982-08-18', 2000, 500);
+-- INSERT INTO medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm)
+-- VALUES (8001, 'MULLER', 'TJ', 'TRAINER', 7566, '1982-08-18', 2000, 500);
 
-INSERT INTO medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm)
-VALUES (8002, 'JANSEN', 'M', 'VERKOPER', 7698, '1981-07-17', 1000, NULL);
+-- INSERT INTO medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm)
+-- VALUES (8002, 'JANSEN', 'M', 'VERKOPER', 7698, '1981-07-17', 1000, NULL);
+
+ALTER TABLE medewerkers ADD CONSTRAINT m_comm_chk CHECK (comm IS NOT NULL OR functie != 'VERKOPER');
 
 
 
@@ -106,5 +150,6 @@ UPDATE medewerkers SET afd = NULL WHERE mnr < 7369 OR mnr > 7934;
 UPDATE afdelingen SET hoofd = NULL WHERE anr > 40;
 DELETE FROM afdelingen WHERE anr > 40;
 DELETE FROM medewerkers WHERE mnr < 7369 OR mnr > 7934;
+ALTER TABLE medewerkers DROP CONSTRAINT IF EXISTS m_comm_chk;
 ALTER TABLE medewerkers DROP CONSTRAINT IF EXISTS m_geslacht_chk;
 ALTER TABLE medewerkers DROP COLUMN IF EXISTS geslacht;
