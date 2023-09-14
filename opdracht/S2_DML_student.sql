@@ -64,7 +64,7 @@ WHERE NOT (naam = 'JANSEN' AND voorl = 'R');
 -- komende 2 maart. De cursus wordt gegeven in Leerdam door Nick Smit.
 -- Voeg deze gegevens toe.
 INSERT INTO uitvoeringen (cursus, begindatum, docent, locatie)
-VALUES ('S02', '2023-03-04', 7788, 'Nick Smit');
+VALUES ('S02', '2020-03-02', 7369, 'LEERDAM');
 -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 
@@ -86,29 +86,29 @@ VALUES (3001, 4000, 500, 6);
 -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 
--- S2.8. Nieuwe cursus
---
--- Er wordt een nieuwe 6-daagse cursus 'Data & Persistency' in het programma opgenomen.
--- Voeg deze cursus met code 'D&P' toe, maak twee uitvoeringen in Leerdam en schrijf drie
--- mensen in.
-INSERT INTO cursussen (code, lengte, omschrijving, "type")
-VALUES ('D&P', 6, 'Data & Persistency', 'ALG');
--- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
-INSERT INTO uitvoeringen (cursus, begindatum, locatie)
-VALUES ('D&P', '2023-03-02', 'Leerdam');
--- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
-INSERT INTO uitvoeringen (cursus, begindatum, locatie)
-VALUES ('D&P', '2023-1-09', 'Leerdam');
--- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
-INSERT INTO inschrijvingen (cursist, cursus, begindatum, evaluatie)
-VALUES(7369, 'D&P', '2023-03-02', 5);
--- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
-INSERT INTO inschrijvingen (cursist, cursus, begindatum, evaluatie)
-VALUES(7499, 'D&P', '2023-03-02', NULL);
--- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
-INSERT INTO inschrijvingen (cursist, cursus, begindatum, evaluatie)
-VALUES(7521, 'D&P', '2023-03-02', NULL);
--- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
+-- -- S2.8. Nieuwe cursus
+-- --
+-- -- Er wordt een nieuwe 6-daagse cursus 'Data & Persistency' in het programma opgenomen.
+-- -- Voeg deze cursus met code 'D&P' toe, maak twee uitvoeringen in Leerdam en schrijf drie
+-- -- mensen in.
+-- INSERT INTO cursussen (code, lengte, omschrijving, "type")
+-- VALUES ('D&P', 6, 'Data & Persistency', 'ALG');
+-- -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
+-- INSERT INTO uitvoeringen (cursus, begindatum, locatie)
+-- VALUES ('D&P', '2023-03-02', 'Leerdam');
+-- -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
+-- INSERT INTO uitvoeringen (cursus, begindatum, locatie)
+-- VALUES ('D&P', '2023-1-09', 'Leerdam');
+-- -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
+-- INSERT INTO inschrijvingen (cursist, cursus, begindatum, evaluatie)
+-- VALUES(7369, 'D&P', '2023-03-02', 5);
+-- -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
+-- INSERT INTO inschrijvingen (cursist, cursus, begindatum, evaluatie)
+-- VALUES(7499, 'D&P', '2023-03-02', NULL);
+-- -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
+-- INSERT INTO inschrijvingen (cursist, cursus, begindatum, evaluatie)
+-- VALUES(7521, 'D&P', '2023-03-02', NULL);
+-- -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 
 -- S2.9. Salarisverhoging
@@ -116,13 +116,13 @@ VALUES(7521, 'D&P', '2023-03-02', NULL);
 -- De medewerkers van de afdeling VERKOOP krijgen een salarisverhoging
 -- van 5.5%, behalve de manager van de afdeling, deze krijgt namelijk meer: 7%.
 -- Voer deze verhogingen door.
-UPDATE medewerkers
-SET maandsal = maandsal * 1.055
-WHERE functie = 'VERKOOP' AND functie != 'MANAGER';
+-- UPDATE medewerkers
+-- SET maandsal = maandsal * 1.055
+-- WHERE functie = 'VERKOOP' AND functie != 'MANAGER';
 
-UPDATE medewerkers
-SET maandsal = maandsal * 1.07
-WHERE functie = 'VERKOOP' AND functie = 'MANAGER';
+-- UPDATE medewerkers
+-- SET maandsal = maandsal * 1.07
+-- WHERE functie = 'VERKOOP' AND functie = 'MANAGER';
 
 
 
@@ -133,28 +133,28 @@ WHERE functie = 'VERKOOP' AND functie = 'MANAGER';
 
 -- Zijn collega Alders heeft ook plannen om te vertrekken. Verwijder ook zijn gegevens.
 -- Waarom lukt dit (niet)?
-DELETE FROM medewerkers
-WHERE mnr = 7499;
+-- DELETE FROM medewerkers
+-- WHERE mnr = 7499;
 
-DELETE FROM medewerkers
-WHERE mnr = 7512;
-information_schema
--- er is een relatie tussen werknemer en inschrijving
+-- DELETE FROM medewerkers
+-- WHERE mnr = 7512;
+-- information_schema
+-- er is een relatie tussen werknemer en inschrijving, hij staat namelijk nog steeds in inschrijvingen
 
 -- S2.11. Nieuwe afdeling
 --
 -- Je wordt hoofd van de nieuwe afdeling 'FINANCIEN' te Leerdam,
 -- onder de hoede van De Koning. Kies een personeelnummer boven de 8000.
 -- Zorg voor de juiste invoer van deze gegevens.
-INSERT INTO medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal)
-VALUES (8356, 'ANDY', 'H', 'MANAGER', 7839, '2004-02-18', 10)
--- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
-INSERT INTO afdelingen (anr, naam, locatie, hoofd)
-VALUES (50, 'FINANCIEN', 'LEERDAM', 8356);
--- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
-UPDATE medewerkers
-SET afd = 50
-WHERE mnr = 8356;
+-- INSERT INTO medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal)
+-- VALUES (8356, 'ANDY', 'H', 'MANAGER', 7839, '2004-02-18', 10);
+-- -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
+-- INSERT INTO afdelingen (anr, naam, locatie, hoofd)
+-- VALUES (50, 'FINANCIEN', 'LEERDAM', 8356);
+-- -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
+-- UPDATE medewerkers
+-- SET afd = 50
+-- WHERE mnr = 8356;
 
 
 -- -------------------------[ HU TESTRAAMWERK ]--------------------------------
@@ -186,6 +186,7 @@ DELETE FROM inschrijvingen WHERE cursus = 'D&P';
 DELETE FROM uitvoeringen WHERE cursus = 'D&P';
 DELETE FROM cursussen WHERE code = 'D&P';
 DELETE FROM uitvoeringen WHERE locatie = 'LEERDAM';
+DELETE FROM schalen WHERE schalen.snr = 6;
 -- INSERT INTO medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm, afd)
 -- VALUES (7654, 'MARTENS', 'P', 'VERKOPER', 7698, '28-09-1976', 1250, 1400, 30);
 UPDATE medewerkers SET maandsal = 1600 WHERE mnr = 7499;

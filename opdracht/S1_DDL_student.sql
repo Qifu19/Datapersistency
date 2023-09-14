@@ -62,7 +62,10 @@ VALUES (50, 'ONDERZOEK', 'ZWOLLE', 8000);
 --   c) Op enig moment gaat het mis. De betreffende kolommen zijn te klein voor
 --      nummers van 3 cijfers. Los dit probleem op.
 DROP SEQUENCE IF EXISTS anr_sequence_number;
-CREATE SEQUENCE anr_sequence_number START WITH 80 INCREMENT BY 10;
+CREATE SEQUENCE anr_sequence_number START WITH 60 INCREMENT BY 10;
+
+ALTER TABLE afdelingen
+ALTER COLUMN anr TYPE NUMERIC(4,0);
 
 INSERT INTO afdelingen (anr, naam, locatie, hoofd)
 VALUES (nextval('anr_sequence_number'), 'WETENSCHAPA', 'WOUDENBERG', 8000);
@@ -79,8 +82,6 @@ VALUES (nextval('anr_sequence_number'), 'JOERI', 'JOERI', 8000);
 INSERT INTO afdelingen (anr, naam, locatie, hoofd)
 VALUES (nextval('anr_sequence_number'), 'EXPERIMENT', 'MASSIN', 8000);
 
-ALTER TABLE afdelingen
-ALTER COLUMN anr TYPE NUMERIC(4,0);
 
 
 -- S1.4. Adressen
