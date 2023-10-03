@@ -64,7 +64,7 @@ WHERE NOT (naam = 'JANSEN' AND voorl = 'R');
 -- komende 2 maart. De cursus wordt gegeven in Leerdam door Nick Smit.
 -- Voeg deze gegevens toe.
 INSERT INTO uitvoeringen (cursus, begindatum, docent, locatie)
-VALUES ('S02', '2020-03-02', 7369, 'LEERDAM');
+VALUES ('S02', TO_DATE('2020-03-02', 'YYYY-MM-DD'), 7369, 'LEERDAM');
 -- ON CONFLICT DO NOTHING;                                                                                         -- [TEST]
 
 
@@ -187,6 +187,7 @@ DELETE FROM uitvoeringen WHERE cursus = 'D&P';
 DELETE FROM cursussen WHERE code = 'D&P';
 DELETE FROM uitvoeringen WHERE locatie = 'LEERDAM';
 DELETE FROM schalen WHERE schalen.snr = 6;
+DELETE FROM adressen WHERE adressen.med_mnr = 8000;
 -- INSERT INTO medewerkers (mnr, naam, voorl, functie, chef, gbdatum, maandsal, comm, afd)
 -- VALUES (7654, 'MARTENS', 'P', 'VERKOPER', 7698, '28-09-1976', 1250, 1400, 30);
 UPDATE medewerkers SET maandsal = 1600 WHERE mnr = 7499;
